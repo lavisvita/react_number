@@ -1,0 +1,21 @@
+@font-face {
+    font-family: EpicSelfie; /* Гарнитура шрифта */
+    src: url('../fonts/EpicSelfie/EpicSelfie.ttf'); /* Путь к файлу со шрифтом */
+}
+
+.header-index-pics-comments{
+    font-family: EpicSelfie;
+    font-size: 7em;
+    text-align: center;
+    margin: 150px 0;
+}
+
+.visibleTrue{
+    visibility: visible;
+}
+.visibleFalse{
+    visibility: hidden;
+}
+.clickable{
+    cursor: pointer;
+}
