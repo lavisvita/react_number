@@ -1,16 +1,30 @@
-import { createStore } from 'redux';
+import { List, Map } from 'immutable';
+import action from '../actions/actions';
+import { combineReducers } from 'redux';
 
-function reducer(state, action){
+export function addTodo(state, action){
     switch(action.type){
-        case 'INCREASE_COUNTER':
-            return {...state, ...{counter: state.counter+1}}
+        case 'ADD_TODO':
+            return action.todos;
         default:
             return state;
     }
 }
 
-const store = createStore(reducer, {
-    counter: 0
+export function showTodos(state=[], action){
+    switch(action.type){
+        case 'ADD_TODO':
+            return [
+                ...state,
+                addTodo(undefined,action)
+            ];
+        default:
+            return state;
+    }
+}
+
+const todoApp = combineReducers({
+    showTodos
 });
 
-export default store;
+export default todoApp;

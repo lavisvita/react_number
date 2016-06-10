@@ -1,23 +1,34 @@
-import React from 'react';
-import ReactDom from 'react-dom';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-class App extends React.Component{
+import { addTodo, toggleTodo } from '../actions/actions';
+import TodoList from './TodoList';
+class App extends Component{
     render(){
-        console.log(this.props);
-        const {dispatch} = this.props;
+        const todos = this.props.todos;
+        const addTodo = this.props.addTodo;
+        const toggleTodo = this.props.toggleTodo;
+        console.log(todos);
         return(
             <div>
-
-                <h1>States testing</h1>
-                <button onClick = { () => {dispatch({type: 'INCREASE_COUNTER'}) }}>
-                    Increase
-                </button>
-                <span>{this.props.counter}</span>
+                <TodoList todos={todos}
+                          addTodo={addTodo}
+                          toggleTodo={toggleTodo}
+                         />
             </div>
         )
     }
 }
-function select(state){
-    return {counter: state.counter};
+
+function showTodos(state) {
+    return {
+        todos: state.showTodos
+    }
 }
-export default connect(select)(App);
+function changeIsDone(dispatch){
+    return {
+        addTodo: text => dispatch(addTodo(text)),
+        toggleTodo: id => dispatch(toggleTodo(id))
+    }
+}
+
+export default connect(showTodos, changeIsDone)(App);
