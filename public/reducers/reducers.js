@@ -1,30 +1,32 @@
-import { List, Map } from 'immutable';
-import action from '../actions/actions';
-import { combineReducers } from 'redux';
-
-export function addTodo(state, action){
+function getId(state){
+    return state.todos.reduce((maxId,todo)=>{
+            return Math.max(todo.id, maxId)
+        }, -1) + 1
+}
+export default function reducers(state, action){
     switch(action.type){
         case 'ADD_TODO':
-            return action.todos;
+            return Object.assign({}, state, {
+                todos: [{
+                    text: action.text,
+                    isDone: false,
+                    id: getId(state)
+                }, ...state.todos]
+            })
+        case 'COMPLETE_TODO':
+            return Object.assign({}, state, {
+            todos: state.todos.map((todo)=>{
+                return (todo.id === action.id) ?
+                    Object.assign({}, todo, { isDone: !todo.isDone }) : todo;
+            })
+        })
+        case 'DELETE_TODO':
+            return Object.assign({}, state, {
+                todos: state.todos.filter((todo)=>{
+                    return todo.id !== action.id
+                })
+            })
         default:
             return state;
     }
 }
-
-export function showTodos(state=[], action){
-    switch(action.type){
-        case 'ADD_TODO':
-            return [
-                ...state,
-                addTodo(undefined,action)
-            ];
-        default:
-            return state;
-    }
-}
-
-const todoApp = combineReducers({
-    showTodos
-});
-
-export default todoApp;
